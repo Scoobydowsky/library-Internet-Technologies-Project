@@ -31,13 +31,15 @@ class MainController extends AbstractController
         return $this->render('homepage.html.twig');
     }
 
-    #[Route('/search/{slug}', name:'app_search')]
-    public function search(string $slug):Response
+    #[Route('/search/{searching}', name:'app_search')]
+    public function search(string $searching):Response
     {
+        if($searching != null){
 
-
-        $lookingFor = $slug;
-        return $this->render('search.html.twig',['lookingFor'=>$lookingFor]);
+        }
+        return $this->render(':books:search.html.twig',['lookingFor'=>$searching]);
     }
+
+
 
 }

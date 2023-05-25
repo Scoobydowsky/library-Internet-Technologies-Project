@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+Tutaj stronka danej książki podgląd do danych -> użyjcie book/view/1 dla przykładowego ładowania (obecnie bez db)
+    <br>
+    Tytuł :{{ book.title }} <br>
+    Autor: {{ book.author }}<br>
+    Data wydania: {{ book.date }}<br>
+    ISBN: {{ book.ISBN }}<br>
+    Opis: {{ book.description }}
+
+
+{% endblock %}
