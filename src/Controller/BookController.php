@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\AuthorEntity;
+use App\Entity\BookEntity;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -9,37 +12,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     #[Route('/book/list',name:'app_book_list')]
-    public function bookList():Response
+    public function bookList(EntityManagerInterface $entityManager):Response
     {
         //pobierz listę z db
-
-        //zapisz do array
+        $bookRepository = $entityManager->getRepository(BookEntity::class);
+        $book = $bookRepository->findAll();
 
         return $this->render('books/list.html.twig',[
-            //tutaj przekaż array wraz z statusami
+            'books'=>$book
         ]);
     }
 
     #[Route('book/view/{id}',name: 'app_book_page')]
-    public function bookPage(int $id):Response
+    public function bookPage(int $id, EntityManagerInterface $entityManager):Response
     {
         //pobierz dane po id z DBs
-        if($id == 1){
-            $bookData = [
-                'title'=>'Opowieści z Narni',
-                'date'=>'2005-12-08',
-                'author'=>'Lewis C.S.',
-                'ISBN' => '69312571',
-                'description'=>'Słynna powieść C.S. Lewisa „Lew, czarownica i stara szafa. Opowieści z Narnii."
-                 zaliczana jest do kategorii literatury dziecięcej. Młodzi czytelnicy odkryją dzięki niej magiczny świat, który znajduje się po drugiej stronie tytułowej szafy.'
-            ];
-        }
-
-
+            $bookRepository = $entityManager->getRepository(BookEntity::class);
+            $book = $bookRepository->findOneBy(['id'=>$id]);
+            $authorRepository = $entityManager->getRepository(AuthorEntity::class);
+            $author = $authorRepository->findOneBy(['id'=>$book->getAuthorID()]);
+            $authorString = $author->getName()." ".$author->getSurname();
         return $this->render('books/page.html.twig',
         [
-            'book'=>$bookData,
-            //tutaj zmienne do przekazania na stronę ksiązki
+            'book'=>[
+                'title'=>$book->getTitle(),
+                'author'=> $authorString,
+                'date'=>$book->getReleaseDate()->format('d-m-Y'),
+                'ISBN'=>$book->getISBN(),
+                'description'=>$book->getDescription()
+            ],
         ]);
     }
 }

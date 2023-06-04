@@ -16,7 +16,7 @@ class BookFixture extends Fixture
         $releaseDate = \DateTime::createFromFormat('d-m-Y', '16-10-1950');
         $book1
             ->setTitle('Opowiesci z Narni: Lew, czarownica i stara szafa')
-            ->setAuthorID(2)
+            ->setAuthorID(1)
             ->setReleaseDate($releaseDate)
             ->setISBN('9788372781758')
             ->setDescription(' "Lew, Czarownica i stara szafa" to pierwszy tom cyklu "Opowieści z Narnii" autorstwa C.S. Lewisa. Kultowa seria książek dla dzieci, stworzona przez profesora z Oksfordu, od lat niesie nieprzemijalne wartości. Uczy także rozwijać wyobraźnię kolejnych pokoleń młodych czytelników.')

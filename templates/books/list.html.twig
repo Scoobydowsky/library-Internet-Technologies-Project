@@ -2,6 +2,32 @@
 
 {% block body %}
 
-Tutaj lista ksiązek
+    Tutaj lista ksiązek
+    <table>
+        <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Autor</th>
+            <th>Status</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for book in books %}
+            <tr>
+                <td>{{ book.title }}</td>
+                <td>{{ book.authorID }}</td>
+                <td>
+                    {% if book.reservation == true %}
+                        Zarezerwowano
+                    {% elseif book.borrowed == true %}
+                        Wypożyczona
+                    {% elseif book.borrowed == false and book.reservation == false %}
+                        Wypożycz
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
 
 {% endblock %}
