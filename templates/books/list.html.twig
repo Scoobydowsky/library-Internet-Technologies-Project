@@ -13,8 +13,9 @@
         </thead>
         <tbody>
         {% for book in books %}
+            {% set bookId = book.id %}
             <tr>
-                <td>{{ book.title }}</td>
+                <td><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
                 <td>{{ book.authorID }}</td>
                 <td>
                     {% if book.reservation == true %}
