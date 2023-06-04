@@ -43,4 +43,22 @@ class BookController extends AbstractController
             ],
         ]);
     }
+
+    #[Route('book/edit/{id}', name: 'app_book_book_edit')]
+    public function bookEdit(int $id, EntityManagerInterface $entityManager):Response
+    {
+        //pobierz dane ksiazki
+        $bookRepository = $entityManager->getRepository(BookEntity::class);
+        $book = $bookRepository->findOneBy(['id'=>$id]);
+
+        return $this->render('books/book_edit.html.twig',[
+            'book'=>[
+                'title'=>$book->getTitle(),
+                'date'=>$book->getReleaseDate()->format('Y-m-d'),
+                'date'=>$book->getReleaseDate()->format('Y-m-d'),
+                'ISBN'=>$book->getISBN(),
+                'description'=>$book->getDescription()
+            ]
+        ]);
+    }
 }

@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+TUTAJ FORMULARZ DO EDYCJI<br>
+<input type="text" value="{{ book.title }}"><br/>
+    Tutaj jeszce musze pomysleć jak zrobić pole autora<br>
+    <input type="date" value="{{ book.date }}"><br>
+    <input type="number" value="{{ book.ISBN }}"><br/>
+    <textarea>{{ book.description }}</textarea><br/>
+    <input type="submit" value="Zapisz">
+
+{% endblock %}
