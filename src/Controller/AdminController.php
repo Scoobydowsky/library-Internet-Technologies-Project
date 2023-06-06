@@ -12,6 +12,6 @@ class AdminController extends AbstractController
     public function adminPanel():Response
     {
 
-        return $this->render('admin/menu.htm.twig');
+        return $this->render('menu.html.twig');
     }
 }
