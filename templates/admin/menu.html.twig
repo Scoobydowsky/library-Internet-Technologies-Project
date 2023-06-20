@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+
+{% block body %}
+{% set admin = 'true' %}
+    {% if admin == 'true' %}
+        ADMIN PANEL
+    <button><a href="{{ path('app_admin_adduser') }}">Dodaj nowego użytkownika</a></button>
+    <button><a href="{{ path('app_admin_showusers') }}">Zobacz użytkowników użytkownika</a></button>
+
+    {% endif %}
+
+{% endblock %}

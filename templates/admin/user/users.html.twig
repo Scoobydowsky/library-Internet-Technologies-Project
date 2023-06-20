@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+ {% block body %}
+    <table>
+        <thead>
+        <td>Login</td>
+        <td>Rola</td>
+        <td>Akcje</td>
+        </thead>
+        {% for user in users %}
+        <tr>
+            <td>{{ user.login }}</td>
+            <td>
+                {% if user.isAdmin == 'True' %}
+                    <b>Admin</b>
+                {% elseif user.isLibrarian == 'True' %}
+                    <i>Bibliotekarz</i>
+                {% else %}
+                    Czytelnik
+                {% endif %}
+            </td>
+            <td>
+                <button><a href="#">Edytuj dane</a></button>
+                <button><a href="#">Usuń użytkownika</a></button>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+
+    </table>
+
+
+{% endblock %}
