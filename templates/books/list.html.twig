@@ -7,12 +7,11 @@
 Do akcji musze dolozyć if ktory bedzie albo ładować przycisk do edycji albo nie
     Tutaj lista ksiązek
     <div class="container-fluid">
-        <div class="row table-div">
-            <div>
+        <div class="row col-sm-12 col-md-8">
             <table class='table'>
                 <thead>
                 <tr>
-                    <th>Nazwa</th>
+                    <th>Tytuł</th>
                     <th>Autor</th>
                     <th>Status</th>
                     <th>Akcja</th>
@@ -33,15 +32,19 @@ Do akcji musze dolozyć if ktory bedzie albo ładować przycisk do edycji albo n
                                 Dostępna
                             {% endif %}
                         </td>
-                        <td> {% if book.borrowed == false and book.reservation == false %}
-                            <button class="btn btn-primary">Borrow</button>
-                            {% endif %}
+                        <td> 
+                            <div class="d-grid gap-2">
+                                {% if book.borrowed == false and book.reservation == false %}
+                                    <button class="btn btn-sm btn-primary">Wypożycz</button>
+                                {% else %}
+                                    <button class="btn btn-sm btn-primary" disabled>Wypożycz</button>
+                                {% endif %}
+                            </div>
                         </td>
                     </tr>
                 {% endfor %}
                 </tbody>
             </table>
-            </div>
         </div>
     </div>
     
