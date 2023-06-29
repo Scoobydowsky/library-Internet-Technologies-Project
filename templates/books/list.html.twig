@@ -1,35 +1,49 @@
 {% extends 'base.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/booklist.css') }}">
+    {% endblock %}
 
 {% block body %}
-Do akcji musze dolozyc if ktory bedzie albo ładować przycisk do edycji albo nie
+Do akcji musze dolozyć if ktory bedzie albo ładować przycisk do edycji albo nie
     Tutaj lista ksiązek
-    <table>
-        <thead>
-        <tr>
-            <th>Nazwa</th>
-            <th>Autor</th>
-            <th>Status</th>
-            <th>Akcja</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for book in books %}
-            {% set bookId = book.id %}
-            <tr>
-                <td><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
-                <td>{{ book.authorID }}</td>
-                <td>
-                    {% if book.reservation == true %}
-                        Zarezerwowano
-                    {% elseif book.borrowed == true %}
-                        Wypożyczona
-                    {% elseif book.borrowed == false and book.reservation == false %}
-                        Wypożycz
-                    {% endif %}
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="container-fluid">
+        <div class="row table-div">
+            <div>
+            <table class='table'>
+                <thead>
+                <tr>
+                    <th>Nazwa</th>
+                    <th>Autor</th>
+                    <th>Status</th>
+                    <th>Akcja</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for book in books %}
+                    {% set bookId = book.id %}
+                    <tr>
+                        <td><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
+                        <td>{{ book.authorID }}</td>
+                        <td>
+                            {% if book.reservation == true %}
+                                Zarezerwowano
+                            {% elseif book.borrowed == true %}
+                                Wypożyczona
+                            {% elseif book.borrowed == false and book.reservation == false %}
+                                Dostępna
+                            {% endif %}
+                        </td>
+                        <td> {% if book.borrowed == false and book.reservation == false %}
+                            <button class="btn btn-primary">Borrow</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+    
 
 {% endblock %}
