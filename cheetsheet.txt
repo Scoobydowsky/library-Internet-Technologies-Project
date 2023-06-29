@@ -1,0 +1,18 @@
+Startowanie kontenera
+docker-compose up -d
+
+Startowanie serwera www
+symfony serve -d
+
+Zatrzymywanie serwera i dockera
+symfony server:stop
+docker-compose down
+
+Importowanie struktury db:
+symfony console doctrine:migrations:migrate
+
+Załadowanie danych z fixtures 
+symfony console doctrine:fixtures:load
+
+
+symfony console debug:router

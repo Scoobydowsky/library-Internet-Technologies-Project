@@ -20,3 +20,4 @@
 ###< symfony/phpunit-bridge ###
 .idea/dataSources.xml
 .idea/sqldialects.xml
+.cheetsheet.txt

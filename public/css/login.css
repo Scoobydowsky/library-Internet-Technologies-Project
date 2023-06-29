@@ -1,0 +1,20 @@
+.bg-img {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
+.login-form {
+  margin: auto;
+  align-items: center;
+  padding: 2em;
+  display: flex;
+  flex-direction: column;
+  border-radius: 30px;
+  box-shadow: 0 0 2em rgb(5, 5, 5);
+  padding: 20px;
+  background-color: var(--gray);
+  width: 33%;
+}
