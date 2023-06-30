@@ -1,11 +1,14 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if app.user %}
-        <p>Witaj, {{ app.user.userIdentifier }}</p>
-        <p>rola użytkownika {{ app.user.roles }}</p>
-    {% else %}
-
+    {% if user is defined%}
+        <p>Witaj, {{ user.login }}</p>
+        <p>rola użytkownika
+            {% if user.isAdmin %}Admin{% endif %}
+            {% if user.isLibrarian %}Bibliotekarz{% endif %}
+            {% if not user.isLibrarian  and not user.isAdmin %}Czytelnik{% endif %}</p>
+        {% else %}
+            <p>Witaj, niezalogowany</p>
     {% endif %}
 TUTAJ STRONA GŁÓWNA
     homepage.html.twig

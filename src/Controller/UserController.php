@@ -8,9 +8,11 @@ use App\Entity\UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpClient\Response;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserController extends AbstractController
 {
@@ -28,7 +30,9 @@ class UserController extends AbstractController
                     $userRepo = $entityManager->getRepository(UserEntity::class);
                     $user = $userRepo->findOneBy(['id'=>$userID]);
                     if($user){
-                        return $this->redirectToRoute('app_homepage');
+                        return $this->redirectToRoute('app_homepage',[
+                            "user"=>$user
+                        ]);
                     }
                 }
             }
@@ -65,11 +69,27 @@ class UserController extends AbstractController
             return $this->render('login.html.twig');
         }
     #[Route('/logout', name: "app_logout")]
-    public function logout():Response
+    public function logout(Request $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $router):Response
     {
+        $token = $request->cookies->get('auth_token');
+        if($token) {
+            //usunięcie sesji z db
+                $session = $entityManager->getRepository(Sessions::class)->findOneBy(['auth_token'=>$token]);
+                if($session){
+                    $entityManager->remove($session);
+                    $entityManager->flush();
+                }
+            //usunięcie tokena
+            $homepageUrl = $this->router->generate('app_homepage');
+            $response = new RedirectResponse($homepageUrl);
+            $response->headers->clearCookie('auth_token');
+            return $response;
 
-
-        return $this->render('homepage.html.twig');
+        }
+        else{
+            echo"Nie byłeś zalogowany nie ładnie...-> Zmienić na jakiś ładny redirect";
+        }
+        return $this->redirectToRoute('app_homepage');
     }
 
 
