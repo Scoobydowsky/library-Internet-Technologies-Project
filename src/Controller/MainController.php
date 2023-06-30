@@ -22,8 +22,12 @@ class MainController extends AbstractController
                 $userID = $session->findOneBy(['auth_token' => $token]);
                 $userRepo = $entityManager->getRepository(UserEntity::class);
                 $user = $userRepo->findOneBy(['id'=>$userID->getUserId()]);
+                return $this->render('homepage.html.twig',[
+                    'user'=>$user
+                ]);
             }
         }
+
         return $this->render('homepage.html.twig');
     }
 
@@ -46,6 +50,7 @@ class MainController extends AbstractController
 
     public function CheckUser(Request $request , EntityManagerInterface $entityManager) : array
     {
+
 
     }
 
