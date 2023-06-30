@@ -95,6 +95,11 @@ class UserController extends AbstractController
         }
         return $this->redirectToRoute('app_homepage');
     }
+    #[Route('/settings',name: 'app_settings')]
+    public function settingsPage():Response
+    {
 
+        return $this->render('homepage.html.twig');
+    }
 
 }

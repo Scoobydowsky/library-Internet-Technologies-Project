@@ -32,12 +32,6 @@ class MainController extends AbstractController
     }
 
     //TODO BELOW
-    #[Route('/settings',name: 'app_settings')]
-    public function settingsPage():Response
-    {
-
-        return $this->render('homepage.html.twig');
-    }
 
     #[Route('/search/{searching}', name:'app_search')]
     public function search(string $searching):Response
