@@ -16,6 +16,10 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserController extends AbstractController
 {
+    public function __construct(UrlGeneratorInterface $router)
+    {
+        $this->router = $router;
+    }
     #[Route('/login', name: "app_login", methods: ["GET", "POST"])]
     public function login(Request $request, EntityManagerInterface $entityManager)
         {
@@ -69,7 +73,7 @@ class UserController extends AbstractController
             return $this->render('login.html.twig');
         }
     #[Route('/logout', name: "app_logout")]
-    public function logout(Request $request, EntityManagerInterface $entityManager, UrlGeneratorInterface $router):Response
+    public function logout(Request $request, EntityManagerInterface $entityManager):Response
     {
         $token = $request->cookies->get('auth_token');
         if($token) {
