@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Sessions;
 use App\Entity\UserEntity;
+use App\Service\UserCheckService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
@@ -16,14 +17,14 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class UserController extends AbstractController
 {
-    public function __construct(UrlGeneratorInterface $router)
+    public function __construct(UrlGeneratorInterface $router,UserCheckService $userCheck)
     {
         $this->router = $router;
+        $this->userCheck = $userCheck;
     }
     #[Route('/login', name: "app_login", methods: ["GET", "POST"])]
     public function login(Request $request, EntityManagerInterface $entityManager)
         {
-
             //pobierz token
             $token = $request->cookies->get('auth_token');
             //jezeli token istnieje sprawdź czy istnieje użytkownik przypisany do tokenu
@@ -33,6 +34,7 @@ class UserController extends AbstractController
                     $userID = $session->findOneBy(['auth_token' => $token]);
                     $userRepo = $entityManager->getRepository(UserEntity::class);
                     $user = $userRepo->findOneBy(['id'=>$userID]);
+                    dd($user);
                     if($user){
                         return $this->redirectToRoute('app_homepage',[
                             "user"=>$user
@@ -96,10 +98,22 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_homepage');
     }
     #[Route('/settings',name: 'app_settings')]
-    public function settingsPage():Response
+    public function settingsPage(Request $request, EntityManagerInterface $entityManager):Response
     {
+        $token = $request->cookies->get('auth_token');
+        if($token){
+            $session = $entityManager->getRepository(Sessions::class);
+            if($session->findOneBy(['auth_token' => $token])){
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id'=>$userID->getUserId()]);
+                return $this->render('user/settings.html.twig',[
+                    'user'=>$user
+                ]);
+            }
+        }
 
-        return $this->render('homepage.html.twig');
+        return $this->render('login.html.twig');
     }
 
 }

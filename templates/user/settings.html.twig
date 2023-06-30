@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% if user is defined%}
+        <p>Witaj, {{ user.login }}</p>
+        <p>rola użytkownika :
+            {% if user.isAdmin %}TUTAJ LOGIKA ADMINISTRATORA : dodaj/usuń/przegladaj użytkownika/ów, zmień hasło użytkownika,dodaj/usuń/modyfikuj ksiażkę , zobacz historę wypożyczeń użytkowników, {% endif %}
+            {% if user.isLibrarian %}TUTAJ LOGIKA BIBLIOTEKARZA: dodaj/usuń/modyfikuj ksiażkę, {% endif %}
+            {% if not user.isLibrarian  and not user.isAdmin %}Czytelnik <br> zobacz historę wypożyczeń, edytuj dane{% endif %}</p>
+    {% else %}
+        <p>Witaj, niezalogowany</p>
+    {% endif %}
+    strona ustawień
+    settings.html.twig
+{% endblock %}
