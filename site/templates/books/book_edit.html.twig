@@ -1,12 +1,32 @@
 {% extends 'base.html.twig' %}
-
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/edit_book.css') }}">
+    {% endblock %}
 {% block body %}
 TUTAJ FORMULARZ DO EDYCJI<br>
-<input type="text" value="{{ book.title }}"><br/>
-    Tutaj jeszce musze pomysleć jak zrobić pole autora<br>
-    <input type="date" value="{{ book.date }}"><br>
-    <input type="number" value="{{ book.ISBN }}"><br/>
-    <textarea>{{ book.description }}</textarea><br/>
-    <input type="submit" value="Zapisz">
+<div class="bcg">
+    <div class="row">
+        <form action="">
+        <label for="title" class="form-label">Tytuł</label>
+        <input type="text" id="title" class="form-control" value="{{ book.title }}">
+
+        <p>Tutaj jeszce musze pomysleć jak zrobić pole autora</p>
+
+        <label for="data" class="form-label">Data wydania</label>
+        <input type="date" id="data" class="form-control" value="{{ book.date }}">
+
+        <label for="isbn" class="form-label">ISBN</label>
+        <input type="number" id="isbn" class="form-control"  value="{{ book.ISBN }}">
+
+        <label for="description" class="form-label">Opis</label>
+        <textarea class="form-control" id="description" rows="5">{{ book.description }}</textarea>
+        <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-sm btn-dark mt-3 fs-4">Zapisz</button>
+        </div>
+        </form>
+    </div>
+
+</div>
+
 
 {% endblock %}
