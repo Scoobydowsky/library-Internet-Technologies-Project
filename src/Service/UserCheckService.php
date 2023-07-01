@@ -15,22 +15,20 @@ class UserCheckService
         $this->entityManager = $entityManager;
     }
 
-    public function checkUser($token = null): array|null
+    public function checkUser(Request $request, EntityManagerInterface $entityManager): array|null
     {
-        //jezeli token istnieje sprawdź czy istnieje użytkownik przypisany do tokenu
+        $token = $request->cookies->get('auth_token');
         if ($token) {
-            $session = $this->entityManager->getRepository(Sessions::class);
+            $session = $entityManager->getRepository(Sessions::class);
             if ($session->findOneBy(['auth_token' => $token])) {
                 $userID = $session->findOneBy(['auth_token' => $token]);
-                $userRepo = $this->entityManager->getRepository(UserEntity::class);
-                $user = $userRepo->findOneBy(['id' => $userID]);
-                dd($user);
-                if ($user) {
-                    return $this->redirectToRoute('app_homepage', [
-                        "user" => $user
-                    ]);
-                }
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+                return $user;
+            }else{
+                return null;
             }
+        }else{
             return null;
         }
     }

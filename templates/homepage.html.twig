@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% if user is defined%}
+    !!! tutaj trzeba dodać alert który bedzie przechwytywany !!! [if alert is defined]
+    {% if user is defined %}
         <p>Witaj, {{ user.login }}</p>
         <p>rola użytkownika
             {% if user.isAdmin %}Admin{% endif %}

@@ -42,10 +42,5 @@ class MainController extends AbstractController
         return $this->render(':books:search.html.twig',['lookingFor'=>$searching]);
     }
 
-    public function CheckUser(Request $request , EntityManagerInterface $entityManager) : array
-    {
-
-
-    }
 
 }
