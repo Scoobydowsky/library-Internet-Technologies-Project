@@ -41,8 +41,27 @@ class AdminController extends AbstractController
         ]);
     }
     #[Route('admin/user/delete/{id}', name: 'app_admin_deleteuser')]
-    public function deleteUser(int $id,){
-        
+    public function deleteUser(int $id,EntityManagerInterface $entityManager, Request $request){
+        $token = $request->cookies->get('auth_token');
+        if($token){
+            $session = $entityManager->getRepository(Sessions::class);
+            if($session->findOneBy(['auth_token' => $token])){
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $admin = $userRepo->findOneBy(['id'=>$userID->getUserId()]);
+            }
+            if($admin->isIsAdmin()){
+                $user= $entityManager->getRepository(UserEntity::class)->findOneBy(['id'=>$id]);
+
+                $entityManager->remove($user);
+                $entityManager->flush();
+
+            }else{
+                return $this->redirectToRoute('app_login');
+            }
+        }else{
+            return $this->redirectToRoute('app_login');
+        }
 
 
         return $this->redirectToRoute('app_admin_showusers');
