@@ -4,7 +4,10 @@ namespace App\Controller;
 
 use App\Entity\AuthorEntity;
 use App\Entity\BookEntity;
+use App\Entity\Sessions;
+use App\Entity\UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,20 +15,39 @@ use Symfony\Component\Routing\Annotation\Route;
 class BookController extends AbstractController
 {
     #[Route('/book/list',name:'app_book_list')]
-    public function bookList(EntityManagerInterface $entityManager):Response
+    public function bookList(EntityManagerInterface $entityManager, Request $request):Response
     {
+        $token = $request->cookies->get('auth_token');
+        if($token){
+            $session = $entityManager->getRepository(Sessions::class);
+            if($session->findOneBy(['auth_token' => $token])){
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id'=>$userID->getUserId()]);
+            }
+        }
         //pobierz listę z db
         $bookRepository = $entityManager->getRepository(BookEntity::class);
         $book = $bookRepository->findAll();
 
         return $this->render('books/list.html.twig',[
-            'books'=>$book
+            'books'=>$book,
+            'user'=>$user
         ]);
     }
 
     #[Route('book/view/{id}',name: 'app_book_page')]
-    public function bookPage(int $id, EntityManagerInterface $entityManager):Response
+    public function bookPage(int $id, EntityManagerInterface $entityManager,Request $request):Response
     {
+        $token = $request->cookies->get('auth_token');
+        if($token){
+            $session = $entityManager->getRepository(Sessions::class);
+            if($session->findOneBy(['auth_token' => $token])){
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id'=>$userID->getUserId()]);
+            }
+        }
         //pobierz dane po id z DBs
             $bookRepository = $entityManager->getRepository(BookEntity::class);
             $book = $bookRepository->findOneBy(['id'=>$id]);
@@ -41,6 +63,7 @@ class BookController extends AbstractController
                 'ISBN'=>$book->getISBN(),
                 'description'=>$book->getDescription()
             ],
+            'user'=>$user,
         ]);
     }
 
