@@ -23,8 +23,12 @@
         </div>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <a href="{{ path('app_book_page', {'id': 2}) }}">
-            <img src="{{ asset('images/book_covers/hobbit.jpg') }}" class="d-block w-100" alt="...">
+            {% if user is defined%}
+              <a href="{{ path('app_book_page', {'id': 2}) }}">
+              {% else %}
+                <a href='#'>
+              {% endif %}
+            <img src="{{ asset('images/book_covers/hobbit.jpg') }}" class="d-block w-100" alt="Okładka Hobbita">
             <div class="carousel-caption d-none d-md-block">
               <h3>Hobbit</h3>
               <p>JRR Tolkien</p>
@@ -32,8 +36,12 @@
               </a>
             </div>
           <div class="carousel-item">
-            <a href="{{ path('app_book_page', {'id': 5}) }}">
-            <img src="{{ asset('images/book_covers/lotr.jpg') }}" class="d-block w-100" alt="...">
+            {% if user is defined%}
+              <a href="{{ path('app_book_page', {'id': 5}) }}">
+              {% else %}
+                <a href='#'>
+              {% endif %}
+            <img src="{{ asset('images/book_covers/lotr.jpg') }}" class="d-block w-100" alt="Okładka Władcy Pierścieni">
             <div class="carousel-caption d-none d-md-block">
               <h3>Powót króla</h3>
               <p>JRR Tolkien</p>
@@ -41,8 +49,12 @@
             </a>
           </div>
           <div class="carousel-item">
+            {% if user is defined%}
             <a href="{{ path('app_book_page', {'id': 1}) }}">
-            <img src="{{ asset('images/book_covers/narnia.jpg') }}" class="d-block w-100" alt="...">
+            {% else %}
+              <a href='#'>
+            {% endif %}
+            <img src="{{ asset('images/book_covers/narnia.jpg') }}" class="d-block w-100" alt="Okładka opowieści z Narnii">
             <div class="carousel-caption d-none d-md-block">
               <h3>Lew, czarownica i stara szafa</h3>
               <p>CS Lewis</p>

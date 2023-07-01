@@ -9,3 +9,8 @@ td {
 .main_container {
   justify-content: center;
 }
+
+a {
+  text-decoration: none;
+  color: black;
+}
