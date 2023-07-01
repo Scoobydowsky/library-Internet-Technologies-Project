@@ -23,7 +23,7 @@
             {% if user.id == users.id %}
                     <button><a href="#">Nie możesz usunąć samego siebie</a></button>
                 {% else %}
-                    <button><a href="{{ path('', {'id': users.id}) }}" onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?')">Usuń użytkownika</a></button>
+                    <button><a href="{{ path('app_admin_deleteuser', {'id': users.id}) }}" onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?')">Usuń użytkownika</a></button>
             {% endif %}
             </td>
         </tr>
