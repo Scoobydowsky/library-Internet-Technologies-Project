@@ -2,7 +2,7 @@ td {
   vertical-align: middle;
 }
 
-.container-fluid {
+.main_container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -12,8 +12,4 @@ td {
 
 .table-div {
   padding: 30px;
-}
-
-.td-btn {
-  text-align: right;
 }

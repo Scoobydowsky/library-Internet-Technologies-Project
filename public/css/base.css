@@ -43,3 +43,6 @@ h6 {
 }
 
 /* COMMON ELEMENTS */
+.navbar-brand svg {
+  display: inline;
+}
