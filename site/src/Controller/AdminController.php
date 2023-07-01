@@ -14,10 +14,23 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminController extends AbstractController
 {
     #[Route('/admin',name:'app_admin_panel')]
-    public function adminPanel():Response
+    public function adminPanel(Request $request, EntityManagerInterface $entityManager):Response
     {
-
-        return $this->render('admin/menu.html.twig');
+        $token = $request->cookies->get('auth_token');
+        if($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+            }
+            if($user->isIsAdmin()){
+            }
+                return $this->render('admin/menu.html.twig',[
+                    'admin'=>true
+                ]);
+            }
+        return $this->redirectToRoute('app_homepage');
     }
 
     #[Route('admin/add-new-user', name: 'app_admin_adduser')]
