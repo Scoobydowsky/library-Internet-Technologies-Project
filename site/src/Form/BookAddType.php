@@ -41,7 +41,7 @@ class BookAddType extends AbstractType
             ->add('reservation')
             ->add('borrowed')
             ->add('submit', SubmitType::class, [
-            'label' => 'Dodaj',
+            'label' => 'Wyślij',
             ]);
     }
 

@@ -1,12 +1,18 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-TUTAJ FORMULARZ DO EDYCJI<br>
-<input type="text" value="{{ book.title }}"><br/>
-    Tutaj jeszce musze pomysleć jak zrobić pole autora<br>
-    <input type="date" value="{{ book.date }}"><br>
-    <input type="number" value="{{ book.ISBN }}"><br/>
-    <textarea>{{ book.description }}</textarea><br/>
-    <input type="submit" value="Zapisz">
+    <h1>Edycja książki</h1>
+    {{ form_start(form) }}
 
+    {{ form_row(form.title) }}
+    {{ form_row(form.release_date) }}
+    {{ form_row(form.ISBN) }}
+    {{ form_row(form.description) }}
+    {{ form_row(form.authorId) }}
+    {{ form_row(form.reservation) }}
+    {{ form_row(form.borrowed) }}
+
+    {{ form_row(form.submit) }}
+
+    {{ form_end(form) }}
 {% endblock %}
