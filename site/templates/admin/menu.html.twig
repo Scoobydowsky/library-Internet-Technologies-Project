@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
-
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
+    {% endblock %}
+    
 
 {% block body %}
 {% set admin = 'true' %}
     {% if admin == 'true' %}
-        ADMIN PANEL
-    <button><a href="{{ path('app_admin_adduser') }}">Dodaj nowego użytkownika</a></button>
-    <button><a href="{{ path('app_admin_showusers') }}">Zobacz użytkowników użytkownika</a></button>
-
+        <div class="bcg">
+            <h1 class="fs-1">Panel administracyjny</h1>  
+            <div class="row">      
+                <a type="button" class="btn btn-dark m-2 col-sm-12 col-md-3 fs-3" href="{{ path('app_admin_adduser') }}">Dodaj nowego użytkownika</a>
+                <a type="button" class="btn btn-dark m-2 col-sm-12 col-md-3 fs-3" href="{{ path('app_admin_showusers') }}">Zobacz listę użytkowników</a>
+            </div>
+        </div>
     {% endif %}
 
 {% endblock %}
