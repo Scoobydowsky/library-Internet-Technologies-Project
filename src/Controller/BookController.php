@@ -7,7 +7,7 @@ use App\Entity\BookEntity;
 use App\Entity\Sessions;
 use App\Entity\UserEntity;
 use Doctrine\ORM\EntityManagerInterface;
-use http\Client\Request;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
