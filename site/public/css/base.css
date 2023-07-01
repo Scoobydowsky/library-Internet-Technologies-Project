@@ -51,8 +51,15 @@ h6 {
   align-items: center;
 }
 
-a svg {
+a svg,
+button svg {
   display: inline;
+  margin-right: 5px;
+}
+
+.navbar,
+.nav-item {
+  z-index: 1;
 }
 
 .nav-link span {
@@ -69,7 +76,17 @@ a svg {
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
-  height: 100vh;
-  width: 100vw;
+  position: absolute;
+  top: 10vh;
+  bottom: 0;
+}
+
+.bcg {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  background-color: var(--gray);
+  width: 70vw;
+  padding: 30px;
+  overflow-y: auto;
 }
