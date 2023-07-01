@@ -116,4 +116,30 @@ class BookController extends AbstractController
             }
         return $this->render('homepage.html.twig');
     }
+    #[Route('book/borrow/{id}', name: 'app_book_book_borrow')]
+    public function bookBorrow(int $id, EntityManagerInterface $entityManager, Request $request, UrlGeneratorInterface $urlGenerator)
+    {
+        //sprawdzenie czy użytkownik to bibliotekarz
+        $token = $request->cookies->get('auth_token');
+        if($token){
+            $session = $entityManager->getRepository(Sessions::class);
+            if($session->findOneBy(['auth_token' => $token])){
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id'=>$userID->getUserId()]);
+            }
+        }
+
+        if($user->isIsLibrarian()){
+            //pozwol na wypozyczenie
+            
+
+            //usuń z tabeli borrow
+        }
+        else{
+            //jezeli nie zablokuj (zabezpieczenie bedzie na poziomie twig)
+            return $this->render('homepage.html.twig');
+        }
+        return $this->render('homepage.html.twig');
+    }
 }
