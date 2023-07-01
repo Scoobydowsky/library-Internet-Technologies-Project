@@ -5,3 +5,7 @@ td {
 .table-div {
   padding: 30px;
 }
+
+.main_container {
+  justify-content: center;
+}
