@@ -67,7 +67,6 @@ class BookController extends AbstractController
                 'user' => $user,
             ]);
     }
-
     #[Route('book/add', name: 'app_book_add')]
     public function bookAdd(Request $request, EntityManagerInterface $entityManager): Response
     {
