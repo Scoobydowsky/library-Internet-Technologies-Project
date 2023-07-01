@@ -8,19 +8,19 @@
             <table class='table'>
                 <thead>
                 <tr>
-                    <th>Tytuł</th>
-                    <th>Autor</th>
-                    <th>Status</th>
-                    <th>Akcja</th>
+                    <th class='fs-3'>Tytuł</th>
+                    <th class='fs-3'>Autor</th>
+                    <th class='fs-3'>Status</th>
+                    <th class='fs-3'>Akcja</th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for book in books %}
                     {% set bookId = book.id %}
                     <tr>
-                        <td><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
-                        <td>{{ book.authorID }}</td>
-                        <td>
+                        <td class='fs-4'><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
+                        <td class='fs-4'>{{ book.authorID }}</td>
+                        <td class='fs-4'>
                             {% if book.reservation == true %}
                                 Zarezerwowano
                             {% elseif book.borrowed == true %}
@@ -29,12 +29,12 @@
                                 Dostępna
                             {% endif %}
                         </td>
-                        <td> 
+                        <td>
                             <div class="d-grid gap-2">
                                 {% if book.borrowed == false and book.reservation == false %}
-                                    <button class="btn btn-sm btn-primary">Wypożycz</button>
+                                    <button class="btn btn-sm btn-dark fs-4">Wypożycz</button>
                                 {% else %}
-                                    <button class="btn btn-sm btn-primary" disabled>Wypożycz</button>
+                                    <button class="btn btn-sm btn-dark fs-4" disabled>Wypożycz</button>
                                 {% endif %}
                             </div>
                         </td>
@@ -43,5 +43,4 @@
                 </tbody>
             </table>
         </div> 
-
 {% endblock %}

@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
-
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/edit_book.css') }}">
+    {% endblock %}
 {% block body %}
+
     <h1>Edycja książki</h1>
     {{ form_start(form) }}
 
