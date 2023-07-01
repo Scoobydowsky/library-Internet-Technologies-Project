@@ -98,7 +98,6 @@ class BookController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     #[Route('book/edit/{id}', name: 'app_book_book_edit')]
     public function bookEdit(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -134,5 +133,36 @@ class BookController extends AbstractController
         return $this->render('books/book_edit.html.twig',[
             'form'=>$form->createView(),
         ]);
+    }
+    #[Route('book/delete/{id}' , name: 'app_book_delete')]
+    public function bookDelete(int $id,EntityManagerInterface $entityManager, Request $request):Response
+    {
+        $token = $request->cookies->get('auth_token');
+        if ($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+            }else{
+                return $this->redirectToRoute('app_homepage');
+            }
+            if ($user->isIsLibrarian()) {
+                $bookRepository = $entityManager->getRepository(BookEntity::class);
+                $book = $bookRepository->findOneBy(['id' => $id]);
+
+                if($book->isBorrowed()){
+                    echo "Nie mozna usunąć wypożyczonej książki";
+                }
+                else{
+                    $entityManager->remove($book);
+                    $entityManager->flush();
+                }
+
+            }else{
+                return $this->redirectToRoute('app_homepage');
+            }
+        }
+        return $this->redirectToRoute('app_book_list');
     }
 }
