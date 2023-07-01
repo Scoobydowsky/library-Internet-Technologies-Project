@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Dodaj użytkownika</h1>
+
+    {{ form_start(form) }}
+    {{ form_row(form.login) }}
+    {{ form_row(form.password) }}
+    {{ form_row(form.isAdmin) }}
+    {{ form_row(form.isLibrarian) }}
+    {{ form_row(form.save) }}
+    {{ form_end(form) }}
+{% endblock %}
