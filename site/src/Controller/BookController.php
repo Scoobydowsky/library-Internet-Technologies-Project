@@ -6,6 +6,7 @@ use App\Entity\AuthorEntity;
 use App\Entity\BookEntity;
 use App\Entity\Sessions;
 use App\Entity\UserEntity;
+use App\Form\BookAddType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -66,10 +67,40 @@ class BookController extends AbstractController
             'user'=>$user,
         ]);
     }
+    #[Route('book/add', name: 'app_book_add')]
+    public function bookAdd(Request $request, EntityManagerInterface $entityManager):Response
+    {
+        $token = $request->cookies->get('auth_token');
+        if($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+            }
+            if($user->isIsLibrarian()){
+                $book = new BookEntity();
 
+                $form = $this->createForm(BookAddType::class, $book);
+                $form->handleRequest($request);
+
+                if($form->isSubmitted() && $form->isValid()){
+                    $entityManager->persist($book);
+                    $entityManager->flush();
+
+                    return $this->redirectToRoute('app_book_list');
+                }
+
+            }
+        }
+        return $this->render('books/add_book.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
     #[Route('book/edit/{id}', name: 'app_book_book_edit')]
     public function bookEdit(int $id, EntityManagerInterface $entityManager):Response
     {
+        //tylko bibliotekarz ma uprawnienia
         //pobierz dane ksiazki
         $bookRepository = $entityManager->getRepository(BookEntity::class);
         $book = $bookRepository->findOneBy(['id'=>$id]);
