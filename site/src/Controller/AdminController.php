@@ -27,7 +27,7 @@ class AdminController extends AbstractController
             if($user->isIsAdmin()){
             }
                 return $this->render('admin/menu.html.twig',[
-                    'admin'=>true
+                    'user'=>$user
                 ]);
             }
         return $this->redirectToRoute('app_homepage');
