@@ -1,0 +1,10 @@
+label {
+  margin-top: 20px;
+  font-size: x-large;
+}
+
+input,
+textarea {
+  font-family: "Courier New", Courier, monospace;
+  font-size: large;
+}
