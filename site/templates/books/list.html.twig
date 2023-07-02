@@ -11,7 +11,9 @@
                     <th class='fs-3'>Tytuł</th>
                     <th class='fs-3'>Autor</th>
                     <th class='fs-3'>Status</th>
-                    <th class='fs-3'>Akcja</th>
+                    {% if user.isLibrarian %}
+                        <th class='fs-3'>Akcja</th>
+                    {% endif %}
                 </tr>
                 </thead>
                 <tbody>
@@ -29,15 +31,20 @@
                                 Dostępna
                             {% endif %}
                         </td>
+                        {% if user.isLibrarian %}
                         <td>
                             <div class="d-grid gap-2">
                                 {% if book.borrowed == false and book.reservation == false %}
-                                    <button class="btn btn-sm btn-dark fs-4">Wypożycz</button>
+                                    <button class="btn btn-sm btn-primary fs-4">Wypożycz</button>
                                 {% else %}
-                                    <button class="btn btn-sm btn-dark fs-4" disabled>Wypożycz</button>
+                                    <button class="btn btn-sm btn-primary fs-4" disabled>Wypożycz</button>
                                 {% endif %}
                             </div>
+                            <div class="d-grid gap-2">
+                                <a class="btn btn-sm mt-2 btn-secondary fs-4" href="{{ path('app_book_book_edit', {'id': bookId}) }}">Edytuj</a>
+                            </div>
                         </td>
+                    {% endif %}
                     </tr>
                 {% endfor %}
                 </tbody>
