@@ -1,14 +1,22 @@
 {% extends 'base.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
+    {% endblock %}
 {% block body %}
+
+<div class="bcg">
+
 <h1>Dodaj nową książkę</h1>
     {{ form_start(form) }}
 
     {{ form_row(form.title) }}
-    {{ form_row(form.release_date) }}
+    <div class="date-form">
+        {{ form_row(form.release_date) }}
+    </div>
     {{ form_row(form.ISBN) }}
     {{ form_row(form.description) }}
     {{ form_row(form.authorId, {'empty_value': 'Wybierz autora'}) }}
     {{ form_row(form.submit) }}
-
     {{ form_end(form) }}
+</div>
 {% endblock %}

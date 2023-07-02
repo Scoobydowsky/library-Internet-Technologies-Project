@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/settings.css') }}">
-        <link rel="stylesheet" href="{{ asset('css/add_user.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
     {% endblock %}
 
 {% block body %}
@@ -12,8 +11,12 @@
             {{ form_start(form) }}
             {{ form_row(form.login) }}
             {{ form_row(form.password) }}
-            {{ form_row(form.isAdmin) }}
-            {{ form_row(form.isLibrarian) }}
+            <div class="check">
+                {{ form_row(form.isAdmin) }}
+            </div>
+            <div class="check">
+                {{ form_row(form.isLibrarian) }}
+            </div>
             {{ form_row(form.save) }}
             {{ form_end(form) }}
         </div>

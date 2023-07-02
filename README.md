@@ -23,10 +23,18 @@ APP_SECRET=secret_symfony
 
 ### TODO ON THE FRONT
 
-- templates/admin/users.html.twig
-- templates/books/add_book.html.twig
-- templates/books/edit_book.html.twig
-- templates/books/search.html.twig
-- templates/user/books_history.html.twig
 - templates/books/list.html.twig (account for different user types)
 - templates/base.html.twig (account for different user types)
+- templates/admin/users.html.twig ✅
+- templates/books/add_book.html.twig ✅
+- templates/books/edit_book.html.twig ✅
+- templates/books/search.html.twig
+- templates/user/books_history.html.twig
+- search bar / search results
+
+### TO FIX ON THE BACK
+
+- search does not exist
+- viewing books does not work again :')
+- add_book form renders 'reservation' and 'borrowed' checkboxes for some reason
+- add_books does not know if user is logged in or not

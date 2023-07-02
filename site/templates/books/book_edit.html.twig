@@ -1,21 +1,30 @@
 {% extends 'base.html.twig' %}
     {% block stylesheets %}
-        <link rel="stylesheet" href="{{ asset('css/edit_book.css') }}">
+        <link rel="stylesheet" href="{{ asset('css/forms.css') }}">
     {% endblock %}
 {% block body %}
+
+<div class="bcg">
 
     <h1>Edycja książki</h1>
     {{ form_start(form) }}
 
     {{ form_row(form.title) }}
-    {{ form_row(form.release_date) }}
+    <div class="date-form">
+        {{ form_row(form.release_date) }}
+    </div>
     {{ form_row(form.ISBN) }}
     {{ form_row(form.description) }}
     {{ form_row(form.authorId) }}
-    {{ form_row(form.reservation) }}
-    {{ form_row(form.borrowed) }}
+    <div class="check">
+        {{ form_row(form.reservation) }}
+    </div>
+    <div class="check">
+        {{ form_row(form.borrowed) }}
+    </div>
 
     {{ form_row(form.submit) }}
 
     {{ form_end(form) }}
+    </div>
 {% endblock %}
