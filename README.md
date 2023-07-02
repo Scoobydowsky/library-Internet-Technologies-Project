@@ -21,10 +21,11 @@ APP_ENV=srodowisko_symfony
 APP_SECRET=secret_symfony
 ```
 
-### TODO ON FRONT
+### TODO ON THE FRONT
 
-- search
-- add book
-- list users
-- fix list books to allow adding/editing/booking/reserving books.
-- adjust navbar to account for different user types
+- templates/admin/users.html.twig
+- templates/books/add_book.html.twig
+- templates/books/search.html.twig
+- templates/user/books_history.html.twig
+- templates/books/list.html.twig (account for different user types)
+- templates/base.html.twig (account for different user types)

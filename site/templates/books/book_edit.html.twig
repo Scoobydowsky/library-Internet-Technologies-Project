@@ -7,18 +7,18 @@ TUTAJ FORMULARZ DO EDYCJI<br>
 <div class="bcg">
     <div class="row">
         <form action="">
-        <label for="title" class="form-label mt-4">Tytuł</label>
+        <label for="title" class="form-label">Tytuł</label>
         <input type="text" id="title" class="form-control" value="{{ book.title }}">
 
-        <p class='mt-4'>Tutaj jeszce musze pomysleć jak zrobić pole autora</p>
+        <p>Tutaj jeszce musze pomysleć jak zrobić pole autora</p>
 
-        <label for="data" class="form-label mt-4">Data wydania</label>
+        <label for="data" class="form-label">Data wydania</label>
         <input type="date" id="data" class="form-control" value="{{ book.date }}">
 
-        <label for="isbn" class="form-label mt-4">ISBN</label>
+        <label for="isbn" class="form-label">ISBN</label>
         <input type="number" id="isbn" class="form-control"  value="{{ book.ISBN }}">
 
-        <label for="description" class="form-label mt-4">Opis</label>
+        <label for="description" class="form-label">Opis</label>
         <textarea class="form-control" id="description" rows="5">{{ book.description }}</textarea>
         <div class="d-grid gap-2">
         <button type="submit" class="btn btn-sm btn-dark mt-3 fs-4">Zapisz</button>
