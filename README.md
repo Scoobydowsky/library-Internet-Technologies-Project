@@ -25,6 +25,7 @@ APP_SECRET=secret_symfony
 
 - templates/admin/users.html.twig
 - templates/books/add_book.html.twig
+- templates/books/edit_book.html.twig
 - templates/books/search.html.twig
 - templates/user/books_history.html.twig
 - templates/books/list.html.twig (account for different user types)

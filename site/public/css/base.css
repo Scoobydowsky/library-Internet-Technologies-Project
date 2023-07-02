@@ -57,10 +57,11 @@ button svg {
   margin-right: 5px;
 }
 
-/* .navbar,
-.nav-item {
+.navbar,
+.nav-item,
+.nav-link {
   z-index: 1;
-} */
+}
 
 .nav-link span {
   font-size: x-large;

@@ -1,29 +1,34 @@
 {% extends 'base.html.twig' %}
  {% block body %}
-    <table>
-        <thead>
-        <td>Login</td>
-        <td>Rola</td>
-        <td>Akcje</td>
-        </thead>
+    <div class="row col-sm-12 col-md-8">
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th class='fs-3'>Login</th>
+                    <th class='fs-3'>Rola</th>
+                    <th class='fs-3'>Akcja</th>
+                </tr>
+            </thead>
+
+
         {% for users in users %}
         <tr>
-            <td>{{ users.login }}</td>
-            <td>
+            <td class='fs-4'>{{ users.login }}</td>
+            <td class='fs-4'>
                 {% if users.isAdmin == 'True' %}
-                    <b>Admin</b>
+                    <span>Admin</span>
                 {% elseif users.isLibrarian == 'True' %}
-                    <i>Bibliotekarz</i>
+                    <span>Bibliotekarz</span>
                 {% else %}
-                    Czytelnik
+                    <span>Czytelnik</span>
                 {% endif %}
             </td>
-            <td>
-                <button><a href="#">Edytuj dane</a></button>
+            <td class='fs-4'>
+                <a type='button' class="btn btn-sm btn-dark fs-4" href="#">Edytuj dane</a>
             {% if user.id == users.id %}
-                    <button><a href="#">Nie możesz usunąć samego siebie</a></button>
+                    {# <span>Nie możesz usunąć samego siebie</span> #}
                 {% else %}
-                    <button><a href="{{ path('app_admin_deleteuser', {'id': users.id}) }}" onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?')">Usuń użytkownika</a></button>
+                    <a type='button' class="btn btn-sm btn-danger fs-4" href="{{ path('app_admin_deleteuser', {'id': users.id}) }}" onclick="return confirm('Czy na pewno chcesz usunąć tego użytkownika?')">Usuń użytkownika</a>
             {% endif %}
             </td>
         </tr>
