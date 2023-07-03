@@ -16,7 +16,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class LibrarianController extends AbstractController
 {
 
-    #[Route('librarian/book/list', name: 'app_librarian_book_modify_list')]
+    #[Route('librarian/book/edit/list', name: 'app_librarian_book_modify_list')]
     public function bookModifyDeleteView(Request $request,EntityManagerInterface $entityManager):Response
     {
         $token = $request->cookies->get('auth_token');
@@ -105,5 +105,40 @@ class LibrarianController extends AbstractController
             $entityManager->flush();
         }
         return $this->redirectToRoute('app_book_list');
+    }
+
+    #[Route('librarian/book/list', name: 'app_librarian_book_list')]
+    public function bookTransactList(Request $request, EntityManagerInterface $entityManager):Response
+    {
+        $token = $request->cookies->get('auth_token');
+        if ($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+            }
+            if($user->isIsLibrarian()){
+                $queryBuilder = $entityManager->createQueryBuilder();
+
+                $query = $queryBuilder
+                    ->select('book')
+                    ->from(BookEntity::class, 'book')
+                    ->where('book.reservation = :reservation OR book.borrowed = :borrowed')
+                    ->setParameter('reservation', true)
+                    ->setParameter('borrowed', true)
+                    ->getQuery();
+
+                $book = $query->getResult();
+
+                return $this->render('librarian/borrow_list.html.twig',[
+                    'books' => $book,
+                    'user' => $user
+                ]);
+            }
+        }else{
+            return $this->redirectToRoute('app_homepage');
+        }
+        return $this->redirectToRoute('app_homepage');
     }
 }
