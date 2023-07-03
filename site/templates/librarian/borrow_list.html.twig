@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="{{ asset('css/booklist.css') }}">
+    {% endblock %}
+
+{% block body %}
+    <div class="row col-sm-12 col-md-8">
+        <table class='table'>
+            <thead>
+            <tr>
+                <th class='fs-3'>Id książki</th>
+                <th class='fs-3'>Tytuł</th>
+                <th class='fs-3'>Autor</th>
+                <th class='fs-3'>Status</th>
+                {% if user.isLibrarian %}
+                    <th class='fs-3'>Akcja</th>
+                {% endif %}
+            </tr>
+            </thead>
+            <tbody>
+            {% for book in books %}
+                {% set bookId = book.id %}
+                <tr>
+                    <td class='fs-4'>{{ book.id }}</td>
+                    <td class='fs-4'><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
+                    <td class='fs-4'>{{ book.authorID }}</td>
+                    <td class='fs-4'>
+                        {% if book.reservation == true %}
+                            Zarezerwowano
+                        {% elseif book.borrowed == true %}
+                            Wypożyczona
+                        {% elseif book.borrowed == false and book.reservation == false %}
+                            Dostępna
+                        {% endif %}
+                    </td>
+                    {% if user.isLibrarian %}
+                        <td>
+                            <div class="d-grid gap-2">
+                                //TODO @filip zmień tutaj linki na prawidłowe i tego ifa przepbuduj
+                                //logika taka jezeli zarezerwowana -> mozliwość kliknięcia wypożycz
+                                //jezeli wypożyczona -> mozliwość kliknięcia zwróć
+                                {% if book.borrowed == false and book.reservation == false %}
+                                    <button class="btn btn-sm btn-primary fs-4">Wypożycz</button>
+                                {% else %}
+                                    <button class="btn btn-sm btn-primary fs-4" disabled>Wypożycz</button>
+                                {% endif %}
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a class="btn btn-sm mt-2 btn-secondary fs-4" href="{{ path('app_book_book_edit', {'id': bookId}) }}">Edytuj</a>
+                            </div>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
