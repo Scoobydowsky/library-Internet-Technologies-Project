@@ -24,13 +24,13 @@ APP_SECRET=secret_symfony
 ### TODO ON THE FRONT
 
 - templates/books/list.html.twig (account for different user types)
-- templates/base.html.twig (account for different user types)
 - templates/admin/users.html.twig ✅
 - templates/books/add_book.html.twig ✅
 - templates/books/edit_book.html.twig ✅
-- templates/books/search.html.twig
+- templates/base.html.twig (account for different user types) ✅
 - templates/user/books_history.html.twig
-- search bar / search results
+- templates/books/search.html.twig
+- change page titles
 
 ### TO FIX ON THE BACK
 
