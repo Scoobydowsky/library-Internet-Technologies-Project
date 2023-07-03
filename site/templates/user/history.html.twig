@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+{% block body %}
+    {% for history in history %}
+        {{ history.book_name }} - {{ history.author_name }} {{ history.author_surname }} -{{ history.borrowDate|date("Y-m-d") }} -->
+        {%  if history.returnDate is null %}
+        Jeszcze nie oddano
+        {% else %}
+        {{ history.returnDate|date("Y-m-d") }}
+            {% endif %}
+        <br>
+
+    {% endfor %}
+
+{% endblock %}

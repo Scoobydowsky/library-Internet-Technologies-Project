@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 
+use App\Entity\AuthorEntity;
+use App\Entity\BookEntity;
+use App\Entity\BorrowHistory;
 use App\Entity\Sessions;
 use App\Entity\UserEntity;
 use App\Service\UserCheckService;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -115,6 +119,39 @@ class UserController extends AbstractController
         }
 
         return $this->render('login.html.twig');
+    }
+    #[Route('user/borrow/history', name: 'app_user_borrow_history')]
+    public function userBookHistory(Request $request, EntityManagerInterface $entityManager):Response
+    {
+        $token = $request->cookies->get('auth_token');
+        if ($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+        }
+            if($user){
+                $queryBuilder = $entityManager->createQueryBuilder();
+                $query = $queryBuilder
+                    ->select('b.title as book_name', 'auth.name as author_name', 'auth.surname as author_surname', 'lu.id as librarian_name' ,  'bh.borrowDate', 'bh.returnDate')
+                    ->from(BorrowHistory::class, 'bh')
+                    ->join(UserEntity::class, 'lu', 'WITH', 'bh.userID = lu.id')
+                    ->join(BookEntity::class, 'b', 'WITH', 'bh.bookID = b.id')
+                    ->join(AuthorEntity::class, 'auth', 'WITH', 'b.authorID = auth.id')
+                    ->where('bh.userID= :userID')
+                    ->setParameter('userID', $user->getId())
+                    ->getQuery();
+
+                $bookHistory = $query->getArrayResult();
+
+                return $this->render('user/history.html.twig',[
+                    'user'=>$user,
+                    'history'=> $bookHistory
+                ]);
+            }
+        }
+        return  $this->redirectToRoute("app_login");
     }
 
 }
