@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AuthorEntity;
 use App\Entity\BookEntity;
+use App\Entity\ReservationList;
 use App\Entity\Sessions;
 use App\Entity\UserEntity;
 use App\Form\BookAddType;
@@ -67,6 +68,7 @@ class BookController extends AbstractController
                 'user' => $user,
             ]);
     }
+
     #[Route('book/add', name: 'app_book_add')]
     public function bookAdd(Request $request, EntityManagerInterface $entityManager): Response
     {
@@ -97,6 +99,7 @@ class BookController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     #[Route('book/edit/{id}', name: 'app_book_book_edit')]
     public function bookEdit(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
@@ -107,7 +110,7 @@ class BookController extends AbstractController
                 $userID = $session->findOneBy(['auth_token' => $token]);
                 $userRepo = $entityManager->getRepository(UserEntity::class);
                 $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
-            }else{
+            } else {
                 return $this->redirectToRoute('app_homepage');
             }
             if ($user->isIsLibrarian()) {
@@ -117,24 +120,25 @@ class BookController extends AbstractController
                 $form = $this->createForm(BookAddType::class, $book);
 
                 $form->handleRequest($request);
-                if($form->isSubmitted() && $form->isValid()){
+                if ($form->isSubmitted() && $form->isValid()) {
                     $entityManager->flush();
 
 
                     return $this->redirectToRoute('app_book_list');
                 }
 
-            }else{
+            } else {
                 return $this->redirectToRoute('app_homepage');
             }
 
         }
-        return $this->render('books/book_edit.html.twig',[
-            'form'=>$form->createView(),
+        return $this->render('books/book_edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
-    #[Route('book/delete/{id}' , name: 'app_book_delete')]
-    public function bookDelete(int $id,EntityManagerInterface $entityManager, Request $request):Response
+
+    #[Route('book/delete/{id}', name: 'app_book_delete')]
+    public function bookDelete(int $id, EntityManagerInterface $entityManager, Request $request): Response
     {
         $token = $request->cookies->get('auth_token');
         if ($token) {
@@ -143,24 +147,69 @@ class BookController extends AbstractController
                 $userID = $session->findOneBy(['auth_token' => $token]);
                 $userRepo = $entityManager->getRepository(UserEntity::class);
                 $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
-            }else{
+            } else {
                 return $this->redirectToRoute('app_homepage');
             }
             if ($user->isIsLibrarian()) {
                 $bookRepository = $entityManager->getRepository(BookEntity::class);
                 $book = $bookRepository->findOneBy(['id' => $id]);
 
-                if($book->isBorrowed()){
+                if ($book->isBorrowed()) {
                     echo "Nie mozna usunąć wypożyczonej książki";
-                }
-                else{
+                } else {
                     $entityManager->remove($book);
                     $entityManager->flush();
                 }
 
-            }else{
+            } else {
                 return $this->redirectToRoute('app_homepage');
             }
+        }
+        return $this->redirectToRoute('app_book_list');
+    }
+
+    #[Route('book/reservate/{id}', name: 'app_book_reservate')]
+    public function bookMakeReservation(int $id, Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $token = $request->cookies->get('auth_token');
+        if ($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+            } else {
+                return $this->redirectToRoute('app_homepage');
+            }
+            if ($user) {
+                $bookRepository = $entityManager->getRepository(BookEntity::class);
+                $book = $bookRepository->findOneBy(['id' => $id]);
+                if (!$book->isReservation()) {
+                    $reservationRepository = $entityManager->getRepository(ReservationList::class);
+                    $reservationInHistory = $reservationRepository->findOneBy(['BookID' => $id]);
+                    // jezeli jest zarezerwowana ale rezerwacja nie jest "potwierdzona" przez bibliotekarza
+                    if ($reservationInHistory && !$reservationInHistory->getConfirmedBy()) {
+                        //Ksiązka już zarezerwowana i wypożyczona
+                    }
+                    // jezeli nie jest zarezerwowana albo (jest zarezerwowana i potwierdzona przez bibliotekarza)
+                    if ((!$reservationInHistory) || ($reservationInHistory && $reservationInHistory->getConfirmedBy())) {
+                        $reservation = new ReservationList();
+                        $currentDate = new \DateTime();
+                        $reservation->setReservationTime($currentDate)
+                            ->setBookID($id)
+                            ->setUserID($user->getId());
+
+                        $book->setReservation(true);
+
+                        $entityManager->persist($reservation);
+                        $entityManager->persist($book);
+                        $entityManager->flush();
+
+                        return $this->redirectToRoute('app_book_list');
+                    }
+                }
+            }
+
         }
         return $this->redirectToRoute('app_book_list');
     }
