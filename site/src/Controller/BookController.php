@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AuthorEntity;
 use App\Entity\BookEntity;
+use App\Entity\BorrowHistory;
 use App\Entity\ReservationList;
 use App\Entity\Sessions;
 use App\Entity\UserEntity;
@@ -56,6 +57,23 @@ class BookController extends AbstractController
         $authorRepository = $entityManager->getRepository(AuthorEntity::class);
         $author = $authorRepository->findOneBy(['id' => $book->getAuthorID()]);
         $authorString = $author->getName() . " " . $author->getSurname();
+
+        if ($user->isIsLibrarian()) {
+            $queryBuilder = $entityManager->createQueryBuilder();
+
+            $query = $queryBuilder
+                ->select('bh.id', 'bh.bookID', 'u.login as user_login', 'lu.login as librarian_login', 'bh.borrowDate', 'bh.returnDate')
+                ->from(BorrowHistory::class, 'bh')
+                ->join(UserEntity::class, 'u', 'WITH', 'bh.userID = u.id')
+                ->join(UserEntity::class, 'lu', 'WITH', 'bh.librarianID = lu.id')
+                ->where('bh.bookID = :bookId')
+                ->setParameter('bookId', $id)
+                ->getQuery();
+
+            $bookHistory = $query->getArrayResult();
+
+        }
+
         return $this->render('books/page.html.twig',
             [
                 'book' => [
@@ -66,6 +84,7 @@ class BookController extends AbstractController
                     'description' => $book->getDescription()
                 ],
                 'user' => $user,
+                'borrowHistory'=>$bookHistory
             ]);
     }
 
@@ -213,4 +232,7 @@ class BookController extends AbstractController
         }
         return $this->redirectToRoute('app_book_list');
     }
+
+
+
 }

@@ -16,5 +16,13 @@
                 <p id='description' class='fs-3'>{{ book.description }}</p>
             </div>
         </div>
+
+        {% if user.isLibrarian %}
+            {% for book in borrowHistory %}
+            DATA: {{ book.borrowDate|date('d-m-Y') }} - {{ book.returnDate|date('d-m-Y') }}<br>
+                Wypożyczona przez: {{ book.user_login }} <br>
+                Przez Bibliotekarza: {{ book.librarian_login }}
+            {% endfor %}
+        {% endif %}
     </div>
 {% endblock %}
