@@ -76,5 +76,34 @@ class LibrarianController extends AbstractController
         return $this->redirectToRoute('app_book_list');
     }
 
+    #[Route('librarian/book/return/{id}', name: 'app_librarian_book_return')]
+    public function bookReturn(int $id, Request $request, EntityManagerInterface $entityManager):Response
+    {
+        $token = $request->cookies->get('auth_token');
+        if ($token) {
+            $session = $entityManager->getRepository(Sessions::class);
+            if ($session->findOneBy(['auth_token' => $token])) {
+                $userID = $session->findOneBy(['auth_token' => $token]);
+                $userRepo = $entityManager->getRepository(UserEntity::class);
+                $user = $userRepo->findOneBy(['id' => $userID->getUserId()]);
+            }
+        }
+        if($user->isIsLibrarian()){
+            //znajdz rezerwacje tej ksiązki bez potwierdzenia
+            $borrowRepository = $entityManager->getRepository(BorrowHistory::class);
+            $borrow = $borrowRepository->findOneBy(['bookID'=>$id, 'returnDate'=>null]);
+            $bookRepository = $entityManager->getRepository(BookEntity::class);
+            $book = $bookRepository->findOneBy(['id'=>$id]);
+            $currentDate = new \DateTime();
+            //pobierz rezerwację i ustaw wypozyczenie
+            $book->setBorrowed(false);
 
+            $borrow->setReturnDate($currentDate);
+
+            $entityManager->persist($book);
+            $entityManager->persist($borrow);
+            $entityManager->flush();
+        }
+        return $this->redirectToRoute('app_book_list');
+    }
 }
