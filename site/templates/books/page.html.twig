@@ -12,7 +12,7 @@
             {% elseif user.isLibrarian %}
                 <div class="action_row row">
                     <a class="btn btn-sm mt-2 btn-primary fs-4" href="#">Wypożycz</a>
-                    <a class="btn btn-sm mt-2 btn-secondary fs-4" href="{{ path('app_book_book_edit', {'id': book.title}) }}">Edytuj</a>
+                    <a class="btn btn-sm mt-2 btn-secondary fs-4" href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a>
                     <a class="btn btn-sm mt-2 btn-danger fs-4" href="#">Usuń</a>
                 </div>
             {% else %}

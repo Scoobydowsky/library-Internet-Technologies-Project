@@ -77,6 +77,7 @@ class BookController extends AbstractController
         return $this->render('books/page.html.twig',
             [
                 'book' => [
+                    'id' => $book->getId(),
                     'title' => $book->getTitle(),
                     'author' => $authorString,
                     'date' => $book->getReleaseDate()->format('d-m-Y'),
