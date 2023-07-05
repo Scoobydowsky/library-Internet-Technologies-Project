@@ -9,7 +9,6 @@
                 <thead>
                 <tr>
                     <th class='fs-3'>Tytuł</th>
-                    <th class='fs-3'>Autor</th>
                     <th class='fs-3'>Status</th>
                     {% if not user.isAdmin and not user.isLibrarian %}
                         <th class='fs-3'>Akcja</th>
@@ -21,7 +20,6 @@
                     {% set bookId = book.id %}
                     <tr>
                         <td class='fs-4'><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
-                        <td class='fs-4'>{{ book.authorID }}</td>
                         <td class='fs-4'>
                             {% if book.reservation == true %}
                                 Zarezerwowano

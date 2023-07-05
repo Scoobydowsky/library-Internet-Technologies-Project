@@ -124,9 +124,9 @@ class LibrarianController extends AbstractController
                 $query = $queryBuilder
                     ->select('book')
                     ->from(BookEntity::class, 'book')
-                    // ->where('book.reservation = :reservation OR book.borrowed = :borrowed')
-                    // ->setParameter('reservation', true)
-                    // ->setParameter('borrowed', true)
+                    ->where('book.reservation = :reservation OR book.borrowed = :borrowed')
+                    ->setParameter('reservation', true)
+                    ->setParameter('borrowed', true)
                     ->getQuery();
 
                 $book = $query->getResult();

@@ -36,11 +36,27 @@
         </div>
 
         {% if user.isLibrarian %}
-            {% for book in borrowHistory %}
-            DATA: {{ book.borrowDate|date('d-m-Y') }} - {{ book.returnDate|date('d-m-Y') }}<br>
-                Wypożyczona przez: {{ book.user_login }} <br>
-                Przez Bibliotekarza: {{ book.librarian_login }}
-            {% endfor %}
+        <h1 class='fs-2'>Historia wypożyczenia</h1>
+        <table class='table'>
+            <thead>
+            <tr>
+                <th class='fs-3'>Data wypożyczenia</th>
+                <th class='fs-3'>Data oddania</th>
+                <th class='fs-3'>Wyporzyczona przez</th>
+                <th class='fs-3'>Bibliotekarz</th> 
+            </tr>
+            </thead>
+            <tbody>
+                {% for book in borrowHistory %}
+                <tr>
+                    <td class='fs-4'>{{ book.borrowDate|date('d-m-Y') }}</td>
+                    <td class='fs-4'>{{ book.returnDate|date('d-m-Y') }}</td>
+                    <td class='fs-4'>{{ book.user_login }}</td>
+                    <td class='fs-4'>{{ book.librarian_login }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% endif %}
     </div>
 {% endblock %}

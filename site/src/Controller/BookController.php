@@ -58,7 +58,7 @@ class BookController extends AbstractController
         $author = $authorRepository->findOneBy(['id' => $book->getAuthorID()]);
         $authorString = $author->getName() . " " . $author->getSurname();
 
-        if ($user->isIsLibrarian()) {
+        // if ($user->isIsLibrarian()) {
             $queryBuilder = $entityManager->createQueryBuilder();
 
             $query = $queryBuilder
@@ -72,7 +72,7 @@ class BookController extends AbstractController
 
             $bookHistory = $query->getArrayResult();
 
-        }
+        // }
 
         return $this->render('books/page.html.twig',
             [
@@ -110,7 +110,7 @@ class BookController extends AbstractController
                     $entityManager->persist($book);
                     $entityManager->flush();
 
-                    return $this->redirectToRoute('app_librarian_book_list');
+                    return $this->redirectToRoute('app_librarian_book_modify_list');
                 }
 
             }
@@ -144,7 +144,7 @@ class BookController extends AbstractController
                     $entityManager->flush();
 
 
-                    return $this->redirectToRoute('app_librarian_book_list');
+                    return $this->redirectToRoute('app_librarian_book_modify_list');
                 }
 
             } else {
@@ -185,7 +185,7 @@ class BookController extends AbstractController
                 return $this->redirectToRoute('app_homepage');
             }
         }
-        return $this->redirectToRoute('app_librarian_book_list');
+        return $this->redirectToRoute('app_librarian_book_modify_list');
     }
 
     #[Route('book/reservate/{id}', name: 'app_book_reservate')]
@@ -232,7 +232,6 @@ class BookController extends AbstractController
 
         }
         if ($user->isIsLibrarian()) {
-
             return $this->redirectToRoute('app_librarian_book_list');
         }
         else
