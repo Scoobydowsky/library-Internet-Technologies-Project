@@ -30,11 +30,12 @@
                     </td>
                     <td>
                         <div class="btn_group">
-                            <a class="btn btn-sm btn-primary fs-4" href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a>
                             {% if book.borrowed == false %}
-                                <a class="btn btn-sm btn-danger fs-4" href="{{ path('app_book_delete', {'id': book.id}) }}">Usuń</a></button>
+                                <a class="btn btn-sm btn-warning fs-4" href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a>
+                                <a class="btn btn-sm btn-danger fs-4" onclick="return confirm('Czy na pewno chcesz usunąć tę ksiązkę?')" href="{{ path('app_book_delete', {'id': book.id}) }}">Usuń</a></button>
                             {% else %}
-                                <a class="btn btn-sm btn-danger fs-4 disabled" href="{{ path('app_book_delete', {'id': book.id}) }}" disabled>Usuń</a></button>
+                                <a class="btn btn-sm btn-warning fs-4 disabled" href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a>
+                                <a class="btn btn-sm btn-danger fs-4 disabled" href="{{ path('app_book_delete', {'id': book.id}) }}" >Usuń</a></button>
                             {% endif %}
                         </div>
                     </td>

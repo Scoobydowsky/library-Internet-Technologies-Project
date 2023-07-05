@@ -11,10 +11,10 @@
             {% if user.isAdmin %}Admin{% endif %}
             {% if user.isLibrarian %}Bibliotekarz{% endif %}
             {% if not user.isLibrarian  and not user.isAdmin %}Czytelnik{% endif %}</p> #}
-        <h3>Polecane tytuły</h3>
-        {% else %}
-            <h1 class='mt-3 p-2'>Witaj, niezalogowany</h1>
-    {% endif %}
+            {% else %}
+              <h1 class='mt-3 p-2'>Witaj, niezalogowany</h1>
+            {% endif %}
+          <h3>Polecane tytuły</h3>
     <div id="book-carousel" class="carousel slide">
         <div class="carousel-indicators">
           <button type="button" data-bs-target="#book-carousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
@@ -50,7 +50,7 @@
           </div>
           <div class="carousel-item">
             {% if user is defined%}
-            <a href="{{ path('app_book_page', {'id': 1}) }}">
+            <a href="{{ path('app_book_page', {'id': 14}) }}">
             {% else %}
               <a href='#'>
             {% endif %}

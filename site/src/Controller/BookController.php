@@ -78,6 +78,8 @@ class BookController extends AbstractController
             [
                 'book' => [
                     'id' => $book->getId(),
+                    'reservation' => $book->isReservation(),
+                    'borrowed' => $book->isBorrowed(),
                     'title' => $book->getTitle(),
                     'author' => $authorString,
                     'date' => $book->getReleaseDate()->format('d-m-Y'),
