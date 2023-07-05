@@ -1,14 +1,33 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {% for history in history %}
-        {{ history.book_name }} - {{ history.author_name }} {{ history.author_surname }} -{{ history.borrowDate|date("Y-m-d") }} -->
-        {%  if history.returnDate is null %}
-        Jeszcze nie oddano
-        {% else %}
-        {{ history.returnDate|date("Y-m-d") }}
-            {% endif %}
-        <br>
-
-    {% endfor %}
+    
+    <div class="row col-sm-12 col-md-8">
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th class='fs-3'>Tytuł</th>
+                    <th class='fs-3'>Autor</th>
+                    <th class='fs-3'>Wypożyczono</th>
+                    <th class='fs-3'>Oddano</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                {% for history in history %}
+                <tr>
+                    <td class='fs-4'>{{ history.book_name }}</td>
+                    <td class='fs-4'>{{ history.author_name }} {{ history.author_surname }}</td>
+                    <td class='fs-4'>{{ history.borrowDate|date("Y-m-d") }}</td>
+                    <td class='fs-4'>
+                        {%  if history.returnDate is null %}
+                            Jeszcze nie oddano
+                        {% else %}
+                            {{ history.returnDate|date("Y-m-d") }}
+                        {% endif %}    
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

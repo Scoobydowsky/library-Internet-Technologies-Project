@@ -11,7 +11,7 @@
                     <th class='fs-3'>Tytuł</th>
                     <th class='fs-3'>Autor</th>
                     <th class='fs-3'>Status</th>
-                    {% if not user.isAdmin %}
+                    {% if not user.isAdmin and not user.isLibrarian %}
                         <th class='fs-3'>Akcja</th>
                     {% endif %}
                 </tr>
@@ -31,24 +31,13 @@
                                 Dostępna
                             {% endif %}
                         </td>
-                    {% if user.isAdmin %}
-                    {% elseif user.isLibrarian %}
+                    {% if not user.isAdmin and not user.isLibrarian %}
                         <td>
                             <div class="d-grid gap-2">
                                 {% if book.borrowed == false and book.reservation == false %}
-                                    <button class="btn btn-sm btn-primary fs-4">Wypożycz</button>
+                                    <a type='button' href="{{ path('app_book_reservate', {'id': bookId})  }}" class="btn btn-sm btn-primary fs-4">Zarezeruj</a>
                                 {% else %}
-                                    <button class="btn btn-sm btn-primary fs-4" disabled>Wypożycz</button>
-                                {% endif %}
-                            </div>
-                        </td>
-                    {% else %}
-                        <td>
-                            <div class="d-grid gap-2">
-                                {% if book.borrowed == false and book.reservation == false %}
-                                    <button class="btn btn-sm btn-primary fs-4">Zarezeruj</button>
-                                {% else %}
-                                    <button class="btn btn-sm btn-primary fs-4" disabled>Zarezerwuj</button>
+                                    <a type='button' href='#' class="btn btn-sm btn-primary fs-4 disabled">Zarezerwuj</a>
                                 {% endif %}
                             </div>
                         </td>

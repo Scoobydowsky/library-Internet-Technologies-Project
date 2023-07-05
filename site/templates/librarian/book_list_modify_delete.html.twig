@@ -8,19 +8,20 @@
         <table class='table'>
             <thead>
             <tr>
-                <th>Tytuł</th>
-                <th>Autor</th>
-                <th>Status</th>
-                <th>Akcja</th>
+                <th class='fs-3'>Tytuł</th>
+                <th class='fs-3'>Autor</th>
+                <th class='fs-3'>Status</th>
+                <th class='fs-3'>Akcja</th>
+
             </tr>
             </thead>
             <tbody>
             {% for book in books %}
                 {% set bookId = book.id %}
                 <tr>
-                    <td><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
-                    <td>{{ book.authorID }}</td>
-                    <td>
+                    <td class='fs-4'><a href="{{ path('app_book_page', {'id': bookId}) }}">{{ book.title }}</a></td>
+                    <td class='fs-4'>{{ book.authorID }}</td>
+                    <td class='fs-4'>
                         {% if book.reservation == true %}
                             Zarezerwowano
                         {% elseif book.borrowed == true %}
@@ -30,13 +31,13 @@
                         {% endif %}
                     </td>
                     <td>
-                        <div class="d-grid gap-2">
+                        <div class="btn_group">
                             {% if book.borrowed == false %}
-                                <button class="btn btn-sm btn-primary"><a href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a></button>
-                                <button class="btn btn-sm btn-primary"><a href="">Usuń</a></button>
+                                <a class="btn btn-sm btn-primary fs-4" href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a>
+                                <a class="btn btn-sm btn-danger fs-4" href="{{ path('app_book_delete', {'id': book.id}) }}">Usuń</a></button>
                             {% else %}
-                                <button class="btn btn-sm btn-primary" disabled>Edytuj</button>
-                                <button class="btn btn-sm btn-primary" disabled>Usuń</button>
+                                <a class="btn btn-sm btn-primary fs-4 disabled" href="{{ path('app_book_book_edit', {'id': book.id}) }}" disabled>Edytuj</a>
+                                <a class="btn btn-sm btn-danger fs-4 disabled" href="{{ path('app_book_delete', {'id': book.id}) }}" disabled>Usuń</a></button>
                             {% endif %}
                         </div>
                     </td>

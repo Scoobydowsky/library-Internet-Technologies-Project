@@ -10,3 +10,13 @@ a {
   text-decoration: none;
   color: black;
 }
+.btn_group {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.btn_group a {
+  min-width: fit-content;
+  width: 100%;
+  margin-left: 10px;
+}

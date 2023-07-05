@@ -8,18 +8,24 @@
             <div class="col-md-3">
                 <p class='fs-3'>Rok wydania:<br> {{ book.date }}</p>
                 <p class='fs-3'>ISBN:<br> {{ book.ISBN }}</p>
-            {% if user.isAdmin %}
+            {# {% if user.isAdmin %}
             {% elseif user.isLibrarian %}
                 <div class="action_row row">
-                    <a class="btn btn-sm mt-2 btn-primary fs-4" href="#">Wypożycz</a>
+                    {% if book.borrowed == true %}
+                        <a type='button' href="{{ path('app_librarian_book_return', {'id': book.id}) }}" class="btn btn-sm btn-secondary fs-4">Zwróć</a>
+                    {% elseif book.reservation == true %}
+                        <a type='button' href="{{ path('app_librarian_book_borrow', {'id': book.id}) }}" class="btn btn-sm btn-primary fs-4">Wypożycz</a>
+                    {% else %}
+                        <a type='button' href="{{ path('app_librarian_book_borrow', {'id': book.id}) }}" class="btn btn-sm btn-primary fs-4 disabled">Wypożycz</a>
+                    {% endif %}
                     <a class="btn btn-sm mt-2 btn-secondary fs-4" href="{{ path('app_book_book_edit', {'id': book.id}) }}">Edytuj</a>
-                    <a class="btn btn-sm mt-2 btn-danger fs-4" href="#">Usuń</a>
+                    <a class="btn btn-sm mt-2 btn-danger fs-4" href="{{ path('app_book_delete', {'id': book.id}) }}">Usuń</a>
                 </div>
             {% else %}
                 <div class="action_row row">
                     <a class="btn btn-sm mt-2 btn-primary fs-4" href="#">Zarezerwuj</a>
                 </div>  
-            {% endif %}
+            {% endif %} #}
             </div>
             <div class="col-md-7">
                 <h1 class='fs-1'>{{ book.title }} </h1>

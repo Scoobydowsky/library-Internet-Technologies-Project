@@ -73,7 +73,7 @@ class LibrarianController extends AbstractController
             $entityManager->persist($borrow);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('app_book_list');
+        return $this->redirectToRoute('app_librarian_book_list');
     }
 
     #[Route('librarian/book/return/{id}', name: 'app_librarian_book_return')]
@@ -104,7 +104,7 @@ class LibrarianController extends AbstractController
             $entityManager->persist($borrow);
             $entityManager->flush();
         }
-        return $this->redirectToRoute('app_book_list');
+        return $this->redirectToRoute('app_librarian_book_list');
     }
 
     #[Route('librarian/book/list', name: 'app_librarian_book_list')]
@@ -124,9 +124,9 @@ class LibrarianController extends AbstractController
                 $query = $queryBuilder
                     ->select('book')
                     ->from(BookEntity::class, 'book')
-                    ->where('book.reservation = :reservation OR book.borrowed = :borrowed')
-                    ->setParameter('reservation', true)
-                    ->setParameter('borrowed', true)
+                    // ->where('book.reservation = :reservation OR book.borrowed = :borrowed')
+                    // ->setParameter('reservation', true)
+                    // ->setParameter('borrowed', true)
                     ->getQuery();
 
                 $book = $query->getResult();

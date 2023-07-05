@@ -110,7 +110,7 @@ class BookController extends AbstractController
                     $entityManager->persist($book);
                     $entityManager->flush();
 
-                    return $this->redirectToRoute('app_book_list');
+                    return $this->redirectToRoute('app_librarian_book_list');
                 }
 
             }
@@ -144,7 +144,7 @@ class BookController extends AbstractController
                     $entityManager->flush();
 
 
-                    return $this->redirectToRoute('app_book_list');
+                    return $this->redirectToRoute('app_librarian_book_list');
                 }
 
             } else {
@@ -185,7 +185,7 @@ class BookController extends AbstractController
                 return $this->redirectToRoute('app_homepage');
             }
         }
-        return $this->redirectToRoute('app_book_list');
+        return $this->redirectToRoute('app_librarian_book_list');
     }
 
     #[Route('book/reservate/{id}', name: 'app_book_reservate')]
@@ -231,6 +231,11 @@ class BookController extends AbstractController
             }
 
         }
+        if ($user->isIsLibrarian()) {
+
+            return $this->redirectToRoute('app_librarian_book_list');
+        }
+        else
         return $this->redirectToRoute('app_book_list');
     }
 
