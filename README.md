@@ -4,6 +4,7 @@ Autorzy: Tomasz Woytkowiak, Filip Plociennik, Dawid Pieczynski
 
 ## Użyte technologie:
 - PHP w/Symfony
+- MySQL database
 - HTML w/Twig
 - CSS w/Bootstrap 5
 - Docker
